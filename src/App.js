@@ -1,23 +1,94 @@
-import logo from './logo.svg';
 import './App.css';
+import Slider from './Slider';
+import Sidebar from './Sidebar';
+import { useState } from 'react';
+
+const DEFAULT_OPTIONS = [
+  {
+    name: 'Brightness',
+    property: 'brightness',
+    value: 100,
+    range: {
+      min: 0,
+      max: 200
+    },
+    unit: '%'
+  },
+  {
+    name: 'Contrast',
+    property: 'contrast',
+    value: 100,
+    range: {
+      min: 0,
+      max: 200
+    },
+    unit: '%'
+  },
+  {
+    name: 'Saturation',
+    property: 'saturate',
+    value: 100,
+    range: {
+      min: 0,
+      max: 200
+    },
+    unit: '%'
+  },
+  {
+    name: 'Grayscale',
+    property: 'grayscale',
+    value: 0,
+    range: {
+      min: 0,
+      max: 100
+    },
+    unit: '%'
+  },
+  {
+    name: 'Sepia',
+    property: 'sepia',
+    value: 0,
+    range: {
+      min: 0,
+      max: 100
+    },
+    unit: '%'
+  },
+  {
+    name: 'Hue Rotate',
+    property: 'hue-rotate',
+    value: 0,
+    range: {
+      min: 0,
+      max: 360
+    },
+    unit: 'deg'
+  },
+  {
+    name: 'Blur',
+    property: 'blur',
+    value: 0,
+    range: {
+      min: 0,
+      max: 20
+    },
+    unit: 'px'
+  }
+]
 
 function App() {
+  const [options, setOptions] = useState(DEFAULT_OPTIONS)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <div className='image'></div>
+      <div className='sidebar'>
+        {options.map((option, index) => {
+          return (
+                <Sidebar key={index} name={option.name}/>
+        )})}
+      </div>
+      <Slider/>
     </div>
   );
 }
