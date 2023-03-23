@@ -78,17 +78,36 @@ const DEFAULT_OPTIONS = [
 
 function App() {
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(0)
+  const selectedOption = options[selectedOptionIndex]
+
+  function handleOnChangeSlider(e){
+    setOptions(prevOptions => {
+      return prevOptions.map((option, index) => {
+        if(index !== selectedOptionIndex) return option
+        return {...option, value : e.target.value}
+      })
+    })
+  }
+
+  function setImageStyle(){
+    const filter =  options.map((option) => {
+      return `${option.property}(${option.value}${option.unit})`
+    })
+    
+    return {filter : filter.join(' ')}
+  }
 
   return (
     <div className='container'>
-      <div className='image'></div>
+      <div className='image' style={setImageStyle()}></div>
       <div className='sidebar'>
         {options.map((option, index) => {
           return (
-                <Sidebar key={index} name={option.name}/>
+                <Sidebar key={index} name={option.name} selectedOption = {index === selectedOptionIndex} handleOnClick = {()=> setSelectedOptionIndex(index)}/>
         )})}
       </div>
-      <Slider/>
+      <Slider min = {selectedOption.range.min} max = {selectedOption.range.max} value = {selectedOption.value} handleOnChangeSlider = {handleOnChangeSlider}/>
     </div>
   );
 }
